@@ -3,10 +3,10 @@
 @inject Neuroglia.AsyncApi.Generation.IJsonSchemaExampleGenerator ExampleGenerator
 @{
     var schemaContext = Model.Context == SchemaContext.Unknown ? string.Empty : EnumHelper.Stringify(Model.Context);
-    var schemaFormat = Model.Definition.SchemaFormat?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[0] ?? "application/vnd.aai.asyncapi+json;version=3.0.0";
+    var schemaFormat = Model.Definition.SchemaFormat?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[0] ?? "application/vnd.aai.asyncapi+json";
     switch (schemaFormat)
     {
-        case "application/vnd.aai.asyncapi+json;version=3.0.0":
+        case "application/vnd.aai.asyncapi+json":
             var schema = Model.Definition.Schema is JsonSchema jsonSchema ? jsonSchema : JsonSerializer.Deserialize<JsonSchema>(JsonSerializer.SerializeToText(Model.Definition))!;
             var type = schema.GetJsonType()!;
             var properties = schema.GetProperties();
