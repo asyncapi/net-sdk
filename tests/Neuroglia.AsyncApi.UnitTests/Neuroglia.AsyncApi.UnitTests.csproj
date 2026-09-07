@@ -31,6 +31,7 @@
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.DependencyInjectionExtensions\Neuroglia.AsyncApi.DependencyInjectionExtensions.csproj" />
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Generation\Neuroglia.AsyncApi.Generation.csproj" />
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.IO\Neuroglia.AsyncApi.IO.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.AspNetCore.UI\Neuroglia.AsyncApi.AspNetCore.UI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

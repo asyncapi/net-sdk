@@ -7,7 +7,7 @@
     switch (schemaFormat)
     {
         case "application/vnd.aai.asyncapi+json":
-            var schema = Model.Definition.Schema is JsonSchema jsonSchema ? jsonSchema : JsonSerializer.Deserialize<JsonSchema>(JsonSerializer.SerializeToText(Model.Definition))!;
+            var schema = Model.Definition.Schema is JsonSchema jsonSchema ? jsonSchema : JsonSerializer.Deserialize<JsonSchema>(JsonSerializer.SerializeToText(Model.Definition.Schema))!;
             var type = schema.GetJsonType()!;
             var properties = schema.GetProperties();
             var examples = Model.Examples;
