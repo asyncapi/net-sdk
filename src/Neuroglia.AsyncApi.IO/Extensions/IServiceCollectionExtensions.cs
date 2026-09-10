@@ -13,6 +13,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Neuroglia.Serialization.Yaml;
 
 namespace Neuroglia.AsyncApi.IO;
 
@@ -32,7 +33,14 @@ public static class IServiceCollectionExtensions
     {
         services.AddSerialization();
         services.AddJsonSerializer();
-        services.AddYamlDotNetSerializer();
+        services.AddYamlDotNetSerializer(builder =>
+        {
+            YamlSerializer.DefaultSerializerConfiguration(builder.Serializer);
+            YamlSerializer.DefaultDeserializerConfiguration(builder.Deserializer);
+            builder.Deserializer
+                .WithoutNodeTypeResolver<InferTypeResolver>()
+                .WithNodeTypeResolver(new AsyncApiYamlTypeResolver());
+        });
         services.TryAdd(new ServiceDescriptor(typeof(IAsyncApiDocumentReader), typeof(AsyncApiDocumentReader), lifetime: lifetime));
         services.TryAdd(new ServiceDescriptor(typeof(IAsyncApiDocumentWriter), typeof(AsyncApiDocumentWriter), lifetime: lifetime));
         return services;

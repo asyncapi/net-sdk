@@ -38,9 +38,7 @@ public static class IServiceCollectionExtensions
     /// <returns>The configured <see cref="IServiceCollection"/></returns>
     public static IServiceCollection AddAsyncApi(this IServiceCollection services)
     {
-        services.AddSerialization();
-        services.AddJsonSerializer();
-        services.AddYamlDotNetSerializer();
+        services.AddAsyncApiIO();
         services.TryAddSingleton<IAsyncApiDocumentReader, AsyncApiDocumentReader>();
         services.TryAddSingleton<IAsyncApiDocumentWriter, AsyncApiDocumentWriter>();
         services.TryAddTransient<IAsyncApiDocumentBuilder, AsyncApiDocumentBuilder>();
