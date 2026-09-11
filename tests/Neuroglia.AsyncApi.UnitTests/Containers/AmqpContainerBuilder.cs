@@ -29,6 +29,7 @@ public static class AmqpContainerBuilder
             .WithPortBinding(PublicPort, true)
             .WithWaitStrategy(Wait
                 .ForUnixContainer()
+                .UntilPortIsAvailable(PublicPort)
                 .UntilMessageIsLogged(".* Time to start RabbitMQ: .*"))
             .Build();
     }
