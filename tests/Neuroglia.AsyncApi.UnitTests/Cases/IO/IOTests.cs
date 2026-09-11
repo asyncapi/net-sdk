@@ -12,6 +12,8 @@
 // limitations under the License.
 
 using Neuroglia.AsyncApi.IO;
+using Neuroglia.AsyncApi.Bindings.Mqtt;
+using Neuroglia.AsyncApi.v3;
 
 namespace Neuroglia.AsyncApi.UnitTests.Cases.IO;
 
@@ -97,6 +99,36 @@ public class IOTests
 
         //assert
         readDocument.Should().BeEquivalentTo(documentToWrite);
+    }
+
+    [Fact]
+    public async Task Read_Yaml_Document_With_Unquoted_String_And_Enum_Scalars_Should_Work()
+    {
+        const string yaml = """
+            asyncapi: 3.0.0
+            info:
+              title: Repro
+              version: 1.0.0
+            channels:
+              hello:
+                address: hello
+            operations:
+              greet:
+                action: send
+                channel:
+                  $ref: '#/channels/hello'
+                bindings:
+                  mqtt:
+                    qos: 2
+            """;
+        using var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(yaml));
+
+        var document = await this.DocumentReader.ReadAsync(stream);
+
+        var v3Document = document.Should().BeOfType<V3AsyncApiDocument>().Subject;
+        v3Document.AsyncApi.Should().Be("3.0.0");
+        v3Document.Info.Version.Should().Be("1.0.0");
+        v3Document.Operations!["greet"].Bindings!.Mqtt!.QoS.Should().Be(MqttQualityOfServiceLevel.ExactlyOne);
     }
 
 }

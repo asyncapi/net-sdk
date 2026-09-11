@@ -29,6 +29,7 @@ public static class NatsContainerBuilder
             .WithPortBinding(PublicPort, true)
             .WithWaitStrategy(Wait
                 .ForUnixContainer()
+                .UntilPortIsAvailable(PublicPort)
                 .UntilMessageIsLogged(".* Listening for route connections on .*"))
             .Build();
     }

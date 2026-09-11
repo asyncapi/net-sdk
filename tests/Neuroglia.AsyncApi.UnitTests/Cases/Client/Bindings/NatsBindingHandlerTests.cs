@@ -187,6 +187,8 @@ public class NatsBindingHandlerTests
         var messagesReceived = new List<IAsyncApiMessage>();
         var subscription = result.Messages?.Subscribe(messagesReceived.Add);
         await using var nats = new NatsClient(serverAddress);
+        // NATS.Net establishes async-enumerable subscriptions in the background.
+        await Task.Delay(1000);
         foreach (var message in messagesToSend) await nats.PublishAsync(channelAddress, message.Item1, message.Item2);
         await Task.Delay(3500);
         subscription?.Dispose();
